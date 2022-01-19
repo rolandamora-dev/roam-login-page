@@ -79,7 +79,7 @@ a token in [Authorization].
 Note: for Endpoints, please refer to the document in Public folder or http://localhost:3000 (in the browser)
 ```
 
-#### Migratiuon and Seeder
+#### Migration and Seeder
 
 1. Run command # 2 "npx sequelize-cli db:migrate"
    - Expected: Creates database table in the host specified in the config.
@@ -88,5 +88,3 @@ Note: for Endpoints, please refer to the document in Public folder or http://loc
      config.
 
 ##### Version 1.0.0
-
-##### Author: Roland Amora
