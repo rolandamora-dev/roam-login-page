@@ -14,6 +14,7 @@ After clone or download, do the following in sequence/order:
    - At the terminal window, run the command > "npx sequelize-cli db:migrate"
 4. seeder
    - Run the command > "npx sequelize db:seed --seed 20220119063230-Users.js"
+5. Run development via command - "npm run dev"
 
 #TESTING: (Tool: Postman)
 
