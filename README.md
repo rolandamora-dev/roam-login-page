@@ -34,9 +34,7 @@ npm run dev
 
 ## TESTING
 
-```
-Tool: Postman
-```
+#### Tool: Postman
 
 ### Configure Postman
 
@@ -56,11 +54,9 @@ pm.environment.set("TOKEN", '')
 Configure the remaining requests (e.g. Get List Users, Delete User, etc) to have
 a token in [Authorization].
 
-```
-- In [Authorization] tab, select
-- Type: Bearer Token and type
-- Token: {{TOKEN}}
-```
+- In [Authorization] tab
+- select Type: Bearer Token
+- and type at Token: {{TOKEN}}
 
 ### Test Cases:
 
@@ -75,9 +71,9 @@ a token in [Authorization].
 4. Perform CRUD operations after logged-out.
    - Expected: Throw and exception/message for unauthorized access.
 
-```
-Note: for Endpoints, please refer to the document in Public folder or http://localhost:3000 (in the browser)
-```
+#### Note: for Endpoints, please refer to the document in Public folder or
+
+http://localhost:3000 (in the browser)
 
 #### Migration and Seeder
 
