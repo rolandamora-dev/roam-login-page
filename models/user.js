@@ -1,48 +1,31 @@
+'use strict';
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define("User", {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
-    },
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    address: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    postcode: {
-      type: DataTypes.STRING,
-    },
-    phoneNumber: {
-      type: DataTypes.STRING,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    role: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: "user"
-    },
-    createAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE,
-
+  class User extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
+  }
+  User.init({
+    firstName: DataTypes.STRING,
+    lastName: DataTypes.STRING,
+    address: DataTypes.STRING,
+    postcode: DataTypes.STRING,
+    phonenumber: DataTypes.STRING,
+    email: DataTypes.STRING,
+    username: DataTypes.STRING,
+    password: DataTypes.STRING,
+    role: DataTypes.STRING
+  }, {
+    sequelize,
+    modelName: 'User',
   });
   return User;
-}
+};
