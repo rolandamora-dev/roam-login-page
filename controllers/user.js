@@ -69,7 +69,8 @@ exports.editUser = async (req, res, next) => {
         phoneNumber: req.body.phoneNumber,
         email: req.body.email,
         username: req.body.username,
-        password: req.body.password
+        password: req.body.password,
+        role: req.body.role
       },
       {
         where: { id: req.params.id }

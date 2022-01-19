@@ -1,53 +1,46 @@
-// const db = require('../models');
-const bcrypt = require('bcrypt');
-// const { register } = require('../repository/user');
-// const ErrorResponse = require('../utils/errorResponse');
+const jwtToken = require('../utils/token');
+const ErrorResponse = require('../utils/errorResponse')
 
-// @desc      LOgin user
+// @desc      Login user
 // @route     POST /user
 // @access    Public
 exports.login = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { username, password, role } = req.body;
 
-  // if (!email || !password) {
-  //   return next(new ErrorResponse('Please provide an email and password', 400));
-  // }
+  if (!username || !password) {
+    return next(new ErrorResponse('Invalid credentials', 400));
+  }
+
+  if (role !== "admin") {
+    return next(new ErrorResponse('Unauthorized user', 400));
+  }
+
+  const token = jwtToken();
+  const options = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true
+  };
+  res.status(200)
+    .cookie('token', token, options)
+    .json({
+      success: true,
+      token
+    });
 }
 
-// @desc      Register new user
+// @desc      Login user
 // @route     POST /user
 // @access    Public
-exports.register = async (req, res, next) => {
+exports.logout = async (req, res, next) => {
+  res.cookie('token', 'none', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true
+  });
 
-  const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-  // encrypt password using bcrypt
-  const salt = await bcrypt.genSalt(10);
-  req.body.password = await bcrypt.hash(req.body.password, salt);
-
-  // if (!req.body.email.match(emailRegex)) {
-  //   return new Error('Email is not valid');
-  // }
-
-  // call register to add in DB
-  register(req, res, next);
-
-}
-
-// @desc      Login
-// @route     POST /user
-// @access    Public
-exports.login = async (req, res, next) => {
-  // const { firstName, lastName, address, postCode, phoneNumber, email, username, password } = req.body;
-  // db.User.create({
-  //   firstName,
-  //   lastName,
-
-  // }).then(user => {
-  //   res.status(200).json({
-  //     success: true,
-  //     data: user
-  //   });
-  // });
-
+  res.status(200).json({
+    success: true,
+    data: {}
+  });
 }
