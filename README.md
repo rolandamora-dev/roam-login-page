@@ -1,49 +1,92 @@
-# backend-login-page
+# LoginPage API
 
-Rest API to add, edit, delete and display list of users. The access level are
-only allowed for "admin' user roles provided access token when logged is
-provided upon log in.
+> Backend API for User application to add, edit, delete and display list of
+> users.
 
-New Environment:
+> The access level is only allowed for "admin' role users which access token is
+> provided upon logged in.
 
-After clone or download, do the following in sequence/order:
+### Usage
 
-1. npm install
-2. Update the DB config in config.json (in config folder)
-3. migrations:
-   - At the terminal window, run the command > "npx sequelize-cli db:migrate"
-4. seeder
-   - Run the command > "npx sequelize db:seed --seed 20220119063230-Users.js"
-5. Run development via command - "npm run dev"
+> Update the DB configuration in "config/config.json" with your own settings.
 
-#TESTING: (Tool: Postman)
+### Install Dependencies
 
-Configure the postman as follows:
+```
+npm install
+```
 
-1. For the "Login Admin User" request, add (in the [Tests] tab of the headers):
+### Run migrations and seeder
 
-- pm.environment.set("TOKEN", pm.response.json().token)
+```
+npx sequelize-cli db:migrate
+```
 
-2. In the "Logout Admin" request, add (in the [Tests] tab of the headers):
+```
+npx sequelize db:seed --seed 20220119063230-Users.js
+```
 
--pm.environment.set("TOKEN", '')
+### Run in dev mode
 
-3. In each of the requests (e.g. Get List Users, DELETE a User, etc), configure
-   the "TOKEN' variable by clicking [Authorization] tab of the headers and
-   selecting "Bearer Token" then specify/input at Token field - {{TOKEN}}
+```
+npm run dev
+```
 
-#TEST CASES: Routing:
+## TESTING
 
-1. Login using "admin" user roles Expected: Token is provided
-2. Perform CRUD with access token Expected: Can perform access
-3. Perform CRUD with no access token Expected: Response error 'Unauthorized to
-   access the routes'.
+```
+Tool: Postman
+```
 
-Note: for Endpoints, please refer to the document in Public folder.
+### Configure Postman
 
-#Migration and Seeder:
+Add below in the [Tests] tab of the request header for the "Login Admin User"
+request.
 
-1. Run command # 2 "npx sequelize-cli db:migrate" Expected: Create database
-   table "login_page" in host specified in "congif.json".
-2. Run command "npx sequelize db:seed --seed 20220119063230-Users.js Expected:
-   Populate initial data in the table in host specified in the config.
+```
+pm.environment.set("TOKEN", pm.response.json().token)
+```
+
+Add below (same header [Tests] tab) for "Logout Admin" request.
+
+```
+pm.environment.set("TOKEN", '')
+```
+
+Configure the remaining requests (e.g. Get List Users, Delete User, etc) to have
+a token in [Authorization].
+
+```
+- In [Authorization] tab, select
+- Type: Bearer Token and type
+- Token: {{TOKEN}}
+```
+
+### Test Cases:
+
+#### Request Route
+
+1. Login using "admin" user roles
+   - Expected Output: Received a token.
+2. Perform CRUD operations after login using admin role user.
+   - Expected: Actions reflected to the records in the database.
+3. Logout admin user
+   - Expected: Token is reset.
+4. Perform CRUD operations after logged-out.
+   - Expected: Throw and exception/message for unauthorized access.
+
+```
+Note: for Endpoints, please refer to the document in Public folder or http://localhost:3000 (in the browser)
+```
+
+#### Migratiuon and Seeder
+
+1. Run command # 2 "npx sequelize-cli db:migrate"
+   - Expected: Creates database table in the host specified in the config.
+2. Run command "npx sequelize db:seed --seed 20220119063230-Users.js
+   - Expected: Populate initial data in the table in host specified in the
+     config.
+
+##### Version 1.0.0
+
+##### Author: Roland Amora
