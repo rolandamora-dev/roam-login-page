@@ -1,5 +1,7 @@
 const jwtToken = require('../utils/token');
 const ErrorResponse = require('../utils/errorResponse')
+const db = require('../models');
+const bcrypt = require('bcrypt');
 
 // @desc      Login user
 // @route     POST /user
@@ -9,6 +11,10 @@ exports.login = async (req, res, next) => {
 
   if (!username || !password) {
     return next(new ErrorResponse('Invalid credentials', 400));
+  }
+
+  if (!hasMatchedPassword(username, password)) {
+    return next(new ErrorResponse('Invalid Password', 400));
   }
 
   if (role !== "admin") {
@@ -22,6 +28,7 @@ exports.login = async (req, res, next) => {
     ),
     httpOnly: true
   };
+  req.headers.authorization = token;
   res.status(200)
     .cookie('token', token, options)
     .json({
@@ -34,6 +41,8 @@ exports.login = async (req, res, next) => {
 // @route     POST /user
 // @access    Public
 exports.logout = async (req, res, next) => {
+
+  req.headers.authorization = '';
   res.cookie('token', 'none', {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true
@@ -43,4 +52,20 @@ exports.logout = async (req, res, next) => {
     success: true,
     data: {}
   });
+}
+
+const hasMatchedPassword = async (username, enteredPassword) => {
+  try {
+    const user = await db.User.findOne({
+      where: {
+        username
+      }
+    }).then(user => {
+      return user.dataValues;
+    });
+
+    return await bcrypt.compare(enteredPassword, user.password);
+  } catch (err) {
+    throw ErrorResponse('Match error', 400);
+  }
 }
