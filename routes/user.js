@@ -7,13 +7,13 @@ const { encrypt, protect } = require('../middleware/auth');
 router.use(protect);
 
 router.get('/', listUsers);
-router.post('/', encrypt, addUser);
+router.post('/', addUser);
 
 router.route('/:id')
   .get(getUser)
   .delete(deleteUser);
 
-router.put('/:id', encrypt, editUser);
+router.put('/:id', editUser);
 
 
 module.exports = router;
