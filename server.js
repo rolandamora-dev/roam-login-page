@@ -2,8 +2,8 @@ const express = require('express');
 const dotenv = require('dotenv');
 const db = require('./models');
 const path = require('path')
-// const cors = require('cors');
-// const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
@@ -15,12 +15,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Cookie parser
-// app.use(cookieParser());
+app.use(cookieParser());
 
 const PORT = process.env.PORT || 3000;
 
 // Enable CORS
-// app.use(cors());
+app.use(cors());
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
